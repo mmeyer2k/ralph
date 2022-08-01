@@ -93,6 +93,11 @@ class Ralph64 extends Ralph
     protected const bitsize = 8;
 }
 
+class Ralph80 extends Ralph
+{
+    protected const bitsize = 10;
+}
+
 class Ralph96 extends Ralph
 {
     protected const bitsize = 12;
@@ -121,6 +126,11 @@ function ralph48(): Ralph
 function ralph64(): Ralph
 {
     return new Ralph64;
+}
+
+function ralph80(): Ralph
+{
+    return new Ralph80;
 }
 
 function ralph96(): Ralph
