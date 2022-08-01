@@ -16,4 +16,11 @@ final class RalphTest extends TestCase
         $dec = ralph()::decrypt($enc, $pwd);
         $this->assertEquals($msg, $dec);
     }
+
+    public function testBadChecksum(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $msg = str_repeat('A', 100);
+        ralph()::decrypt($msg, 'password');
+    }
 }
