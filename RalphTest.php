@@ -23,4 +23,26 @@ final class RalphTest extends TestCase
         $msg = str_repeat('A', 100);
         ralph()::decrypt($msg, 'password');
     }
+
+    public function testMessageTooLargeException(): void
+    {
+        $msg = str_repeat('A', 100000);
+
+        $this->expectException(ValueError::class);
+
+        ralph()::encrypt($msg, 'password');
+    }
+
+    public function testStressTestWithRandomBytes(): void
+    {
+        for ($i = 0; $i < 1000; $i++) {
+            $msg = random_bytes(mt_rand(1, 16000));
+            $key = random_bytes(mt_rand(1, 100));
+
+            $enc = Ralph::encrypt($msg, $key);
+            $dec = Ralph::decrypt($enc, $key);
+
+            $this->assertEquals($msg, $dec);
+        }
+    }
 }
