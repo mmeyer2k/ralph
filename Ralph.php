@@ -35,7 +35,7 @@ class Ralph
 
         $cal = self::hmac($msg, $key);
 
-        if (self::equal($cal, $chk) === false) {
+        if (hash_equals($cal, $chk) === false) {
             throw new InvalidArgumentException('Ciphertext checksum verification failed');
         }
 
@@ -75,17 +75,9 @@ class Ralph
 
         return substr($hash, 0, 8);
     }
+}
 
-    /**
-     * @throws Exception
-     */
-    private static function equal(string $known, string $given): bool
-    {
-        $nonce = random_bytes(16);
-
-        $known = self::hmac($known, $nonce);
-        $given = self::hmac($given, $nonce);
-
-        return hash_equals($known, $given);
-    }
+function ralph(): Ralph
+{
+    return new Ralph;
 }

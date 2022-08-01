@@ -1,0 +1,60 @@
+version: 2
+jobs:
+  php-71:
+    docker:
+      - image: cimg/php:7.1
+    steps:
+      - checkout
+      - run: wget -O phpunit https://phar.phpunit.de/phpunit-9.phar
+      - run: php phpunit .
+
+  php-72:
+    docker:
+      - image: circleci/php:7.2
+    steps:
+      - checkout
+      - run: wget -O phpunit https://phar.phpunit.de/phpunit-9.phar
+      - run: php phpunit .
+
+  php-73:
+    docker:
+      - image: cimg/php:7.3
+    steps:
+      - checkout
+      - run: wget -O phpunit https://phar.phpunit.de/phpunit-9.phar
+      - run: php phpunit .
+
+  php-74:
+    docker:
+      - image: cimg/php:7.4
+    steps:
+      - checkout
+      - run: wget -O phpunit https://phar.phpunit.de/phpunit-9.phar
+      - run: php phpunit .
+
+  php-80:
+    docker:
+      - image: cimg/php:8.0
+    steps:
+      - checkout
+      - run: wget -O phpunit https://phar.phpunit.de/phpunit-9.phar
+      - run: php phpunit .
+
+  php-81:
+    docker:
+      - image: cimg/php:8.1
+    steps:
+      - checkout
+      - run: wget -O phpunit https://phar.phpunit.de/phpunit-9.phar
+      - run: php phpunit .
+
+workflows:
+  version: 2
+  build-test-all:
+    jobs:
+      - php-71
+      - php-72
+      - php-73
+      - php-74
+      - php-80
+      - php-81
