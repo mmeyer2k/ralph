@@ -30,12 +30,12 @@ final class RalphTest extends TestCase
 
         if (class_exists('ValueError')) {
             $this->expectException(ValueError::class);
-        } else {
-            try {
-                ralph()::encrypt($msg, 'password');
-            } catch (Exception $e) {
-                $this->assertTrue(true);
-            }
+        }
+
+        try {
+            ralph()::encrypt($msg, 'password');
+        } catch (Exception $e) {
+            $this->assertTrue(true);
         }
     }
 
