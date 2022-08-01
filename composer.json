@@ -2,7 +2,7 @@
   "name": "mmeyer2k/ralph",
   "description": "A semi-secure symmetric encryption library",
   "keywords": [
-    "encryption",
+    "encryption"
   ],
   "license": "MIT",
   "authors": [
