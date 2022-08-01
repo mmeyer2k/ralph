@@ -83,6 +83,11 @@ class Ralph32 extends Ralph
     protected const bitsize = 4;
 }
 
+class Ralph48 extends Ralph
+{
+    protected const bitsize = 6;
+}
+
 class Ralph64 extends Ralph
 {
     protected const bitsize = 8;
@@ -106,6 +111,11 @@ function ralph16(): Ralph
 function ralph32(): Ralph
 {
     return new Ralph32;
+}
+
+function ralph48(): Ralph
+{
+    return new Ralph48;
 }
 
 function ralph64(): Ralph
