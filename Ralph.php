@@ -2,20 +2,18 @@
 
 class Ralph
 {
-    protected const ivrsize = 8;
-    protected const chksize = 8;
-    protected const padsize = 8;
+    protected const bitsize = 8;
 
     /**
      * @throws Exception|ValueError
      */
     public static function encrypt(string $msg, string $key, int $itr = 1): string
     {
-        $ivr = random_bytes(self::ivrsize);
+        $ivr = random_bytes(static::bitsize);
 
         $len = strlen($msg);
 
-        $pad = self::padsize - ($len % self::padsize);
+        $pad = static::bitsize - ($len % static::bitsize);
 
         $msg = $msg . str_repeat(chr($pad), $pad);
 
@@ -31,11 +29,11 @@ class Ralph
      */
     public static function decrypt(string $msg, string $key, int $itr = 1): string
     {
-        $ivr = substr($msg, 0, self::ivrsize);
+        $ivr = substr($msg, 0, static::bitsize);
 
-        $chk = substr($msg, self::ivrsize, self::chksize);
+        $chk = substr($msg, static::bitsize, static::bitsize);
 
-        $msg = substr($msg, self::ivrsize + self::chksize);
+        $msg = substr($msg, static::bitsize * 2);
 
         $cal = self::hmac($msg, $key);
 
@@ -71,11 +69,51 @@ class Ralph
             throw new Exception('An exception occurred in hash_hmac');
         }
 
-        return substr($hash, 0, 8);
+        return substr($hash, 0, static::bitsize);
     }
+}
+
+class Ralph16 extends Ralph
+{
+    protected const bitsize = 2;
+}
+
+class Ralph32 extends Ralph
+{
+    protected const bitsize = 4;
+}
+
+class Ralph64 extends Ralph
+{
+    protected const bitsize = 8;
+}
+
+class Ralph96 extends Ralph
+{
+    protected const bitsize = 12;
 }
 
 function ralph(): Ralph
 {
     return new Ralph;
+}
+
+function ralph16(): Ralph
+{
+    return new Ralph16;
+}
+
+function ralph32(): Ralph
+{
+    return new Ralph32;
+}
+
+function ralph64(): Ralph
+{
+    return new Ralph64;
+}
+
+function ralph96(): Ralph
+{
+    return new Ralph96;
 }

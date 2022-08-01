@@ -8,13 +8,14 @@ require_once __DIR__ . '/Ralph.php';
 
 final class RalphTest extends TestCase
 {
+    const key = 'AAAAAAAA';
+    const msg = '... a secret message ...';
+
     public function testEncryptionCycle(): void
     {
-        $msg = 'AAAA';
-        $pwd = 'BBBB';
-        $enc = ralph()::encrypt($msg, $pwd);
-        $dec = ralph()::decrypt($enc, $pwd);
-        $this->assertEquals($msg, $dec);
+        $enc = ralph()::encrypt(self::msg, self::key);
+        $dec = ralph()::decrypt($enc, self::key);
+        $this->assertEquals(self::msg, $dec);
     }
 
     public function testBadChecksum(): void
@@ -35,7 +36,7 @@ final class RalphTest extends TestCase
     public function testStressTestWithRandomBytes(): void
     {
         for ($i = 0; $i < 100; $i++) {
-            $msg = random_bytes(mt_rand(1, 16000));
+            $msg = random_bytes(mt_rand(1, 100));
             $key = random_bytes(mt_rand(1, 100));
 
             $enc = Ralph::encrypt($msg, $key);
@@ -44,5 +45,33 @@ final class RalphTest extends TestCase
             $this->assertEquals($msg, $dec);
             $this->assertEquals(0, strlen($enc) % 8);
         }
+    }
+
+    public function testRalph16(): void
+    {
+        $enc = ralph16()::encrypt(self::msg, self::key);
+        $dec = ralph16()::decrypt($enc, self::key);
+        $this->assertEquals(self::msg, $dec);
+    }
+
+    public function testRalph32(): void
+    {
+        $enc = ralph32()::encrypt(self::msg, self::key);
+        $dec = ralph32()::decrypt($enc, self::key);
+        $this->assertEquals(self::msg, $dec);
+    }
+
+    public function testRalph64(): void
+    {
+        $enc = ralph64()::encrypt(self::msg, self::key);
+        $dec = ralph64()::decrypt($enc, self::key);
+        $this->assertEquals(self::msg, $dec);
+    }
+
+    public function testRalph96(): void
+    {
+        $enc = ralph96()::encrypt(self::msg, self::key);
+        $dec = ralph96()::decrypt($enc, self::key);
+        $this->assertEquals(self::msg, $dec);
     }
 }
