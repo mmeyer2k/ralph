@@ -1,0 +1,23 @@
+{
+  "name": "mmeyer2k/ralph",
+  "description": "A semi-secure symmetric encryption library",
+  "keywords": [
+    "encryption",
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Michael Meyer",
+      "email": "m.meyer2k@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.1.0"
+  },
+  "autoload": {
+    "files": [
+      "Ralph.php"
+    ]
+  },
+  "minimum-stability": "dev"
+}
