@@ -5,7 +5,7 @@ class Ralph
     /**
      * @throws Exception|ValueError
      */
-    public static function encrypt(string $msg, string $key): string
+    public static function encrypt(string $msg, string $key, int $itr = 1): string
     {
         $ivr = random_bytes(8);
 
@@ -15,7 +15,7 @@ class Ralph
 
         $msg = $msg . str_repeat(chr($pad), $pad);
 
-        $msg = $msg ^ self::hkdf($key, $len + $pad, $ivr);
+        $msg = $msg ^ self::pbkdf($key, $len + $pad, $ivr, $itr);
 
         $chk = self::hmac($msg, $key);
 
@@ -25,7 +25,7 @@ class Ralph
     /**
      * @throws ValueError|Exception|InvalidArgumentException
      */
-    public static function decrypt(string $msg, string $key): string
+    public static function decrypt(string $msg, string $key, int $itr = 1): string
     {
         $ivr = substr($msg, 0, 8);
 
@@ -41,7 +41,7 @@ class Ralph
 
         $len = strlen($msg);
 
-        $msg = $msg ^ self::hkdf($key, $len, $ivr);
+        $msg = $msg ^ self::pbkdf($key, $len, $ivr, $itr);
 
         $pad = ord(substr($msg, -1));
 
@@ -51,15 +51,9 @@ class Ralph
     /**
      * @throws Exception
      */
-    private static function hkdf(string $key, int $len, string $ivr): string
+    private static function pbkdf(string $key, int $len, string $ivr, int $itr): string
     {
-        $data = hash_hkdf('sha3-512', $key, $len, (string) $len, $ivr);
-
-        if ($data === false) {
-            throw new Exception('An exception occurred in hash_hkdf');
-        }
-
-        return $data;
+        return hash_pbkdf2('sha3-512', $key, $ivr, $itr, $len, true);
     }
 
     /**
