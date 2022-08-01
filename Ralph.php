@@ -2,16 +2,20 @@
 
 class Ralph
 {
+    protected const ivrsize = 8;
+    protected const chksize = 8;
+    protected const padsize = 8;
+
     /**
      * @throws Exception|ValueError
      */
     public static function encrypt(string $msg, string $key, int $itr = 1): string
     {
-        $ivr = random_bytes(8);
+        $ivr = random_bytes(self::ivrsize);
 
         $len = strlen($msg);
 
-        $pad = 8 - ($len % 8);
+        $pad = self::padsize - ($len % self::padsize);
 
         $msg = $msg . str_repeat(chr($pad), $pad);
 
@@ -27,11 +31,11 @@ class Ralph
      */
     public static function decrypt(string $msg, string $key, int $itr = 1): string
     {
-        $ivr = substr($msg, 0, 8);
+        $ivr = substr($msg, 0, self::ivrsize);
 
-        $chk = substr($msg, 8, 8);
+        $chk = substr($msg, self::ivrsize, self::chksize);
 
-        $msg = substr($msg, 16);
+        $msg = substr($msg, self::ivrsize + self::chksize);
 
         $cal = self::hmac($msg, $key);
 
