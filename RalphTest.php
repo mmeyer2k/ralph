@@ -42,6 +42,7 @@ final class RalphTest extends TestCase
             $dec = Ralph::decrypt($enc, $key);
 
             $this->assertEquals($msg, $dec);
+            $this->assertEquals(0, strlen($enc) % 8);
         }
     }
 }
