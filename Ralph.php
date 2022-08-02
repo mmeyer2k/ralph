@@ -25,7 +25,7 @@ class Ralph
     }
 
     /**
-     * @throws ValueError|Exception|InvalidArgumentException
+     * @throws Exception|InvalidArgumentException
      */
     public static function decrypt(string $msg, string $key, int $itr = 1): string
     {
@@ -63,13 +63,9 @@ class Ralph
      */
     private static function hmac(string $msg, string $key): string
     {
-        $hash = hash_hmac('sha3-256', $msg, $key, true);
+        $hmac = hash_hmac('sha3-256', $msg, $key, true);
 
-        if ($hash === false) {
-            throw new Exception('An exception occurred in hash_hmac');
-        }
-
-        return substr($hash, 0, static::bitsize);
+        return substr($hmac, 0, static::bitsize);
     }
 }
 
