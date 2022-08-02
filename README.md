@@ -39,7 +39,7 @@ $decrypted = ralph()::decrypt($encrypted, 'password', $iterations);
 ```
 
 ## specs
- - initialization vector (random_bytes)
- - hmac checksum verification (sha3-256)
- - block padding (PKCS#7)
- - pbkdf2 for key stream generation (sha3-512)
+ - initialization vector (`random_bytes`)
+ - time-safe checksum verification (`hash_equals`, `hash_hmac`, `sha3-256`)
+ - block padding (`PKCS#7`)
+ - key stream generation (`hash_pbkdf2`, `sha3-512`)
