@@ -5,7 +5,7 @@ class Ralph
     protected const bitsize = 8;
 
     /**
-     * @throws Exception|ValueError
+     * @throws Exception
      */
     public static function encrypt(string $msg, string $key, int $itr = 1): string
     {
@@ -101,6 +101,16 @@ class Ralph96 extends Ralph
     protected const bitsize = 12;
 }
 
+class Ralph112 extends Ralph
+{
+    protected const bitsize = 14;
+}
+
+class Ralph128 extends Ralph
+{
+    protected const bitsize = 16;
+}
+
 function ralph(): Ralph
 {
     return new Ralph;
@@ -134,4 +144,14 @@ function ralph80(): Ralph
 function ralph96(): Ralph
 {
     return new Ralph96;
+}
+
+function ralph112(): Ralph
+{
+    return new Ralph112;
+}
+
+function ralph128(): Ralph
+{
+    return new Ralph128;
 }
