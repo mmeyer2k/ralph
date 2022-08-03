@@ -9,7 +9,7 @@ As a result, input strings under 8 bytes long result in a 24 byte cypher text.
 $encrypted = ralph()::encrypt('secret', 'password');
 
 var_dump(base64_encode($encrypted));
-#string(32) "sBVr2kZo3ckGl+IK25C5lmlYDPBjuact"
+#string(32) "M783Db84XVPukJZkRh05R5ZBZxcD4CvM"
 
 $decrypted = ralph()::decrypt($encrypted, 'password');
 

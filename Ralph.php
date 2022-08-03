@@ -17,9 +17,9 @@ class Ralph
 
         $msg = $msg . str_repeat(chr($pad), $pad);
 
-        $msg = $msg ^ self::pbkdf($key, $len + $pad, $ivr, $itr);
+        $msg = $msg ^ self::pbkdf($key, $ivr, $itr, $len + $pad);
 
-        $chk = self::hmac($msg, $key);
+        $chk = self::hmac($msg, $key, $ivr, $itr);
 
         return $ivr . $chk . $msg;
     }
@@ -35,7 +35,7 @@ class Ralph
 
         $msg = substr($msg, static::bitsize * 2);
 
-        $cal = self::hmac($msg, $key);
+        $cal = self::hmac($msg, $key, $ivr, $itr);
 
         if (hash_equals($cal, $chk) === false) {
             throw new InvalidArgumentException('Ciphertext checksum verification failed');
@@ -43,7 +43,7 @@ class Ralph
 
         $len = strlen($msg);
 
-        $msg = $msg ^ self::pbkdf($key, $len, $ivr, $itr);
+        $msg = $msg ^ self::pbkdf($key, $ivr, $itr, $len);
 
         $pad = ord(substr($msg, -1));
 
@@ -53,7 +53,7 @@ class Ralph
     /**
      * @throws Exception
      */
-    private static function pbkdf(string $key, int $len, string $ivr, int $itr): string
+    private static function pbkdf(string $key, string $ivr, int $itr, int $len = 0): string
     {
         return hash_pbkdf2('sha3-512', $key, $ivr, $itr, $len, true);
     }
@@ -61,8 +61,10 @@ class Ralph
     /**
      * @throws Exception
      */
-    private static function hmac(string $msg, string $key): string
+    private static function hmac(string $msg, string $key, string $ivr, int $itr): string
     {
+        $key = self::pbkdf($key, $ivr, $itr + 1);
+
         $hmac = hash_hmac('sha3-256', $msg, $key, true);
 
         return substr($hmac, 0, static::bitsize);

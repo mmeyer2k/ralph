@@ -27,7 +27,7 @@ final class RalphTest extends TestCase
 
     public function testReadmeSnippet(): void
     {
-        $enc = base64_decode('sBVr2kZo3ckGl+IK25C5lmlYDPBjuact');
+        $enc = base64_decode('M783Db84XVPukJZkRh05R5ZBZxcD4CvM');
         $dec = ralph()::decrypt($enc, 'password');
 
         $this->assertEquals('secret', $dec);
