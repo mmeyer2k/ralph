@@ -91,15 +91,15 @@ final class RalphTest extends TestCase
 
     public function testRalph112(): void
     {
-        $enc = ralph96()::encrypt(self::msg, self::key);
-        $dec = ralph96()::decrypt($enc, self::key);
+        $enc = ralph112()::encrypt(self::msg, self::key);
+        $dec = ralph112()::decrypt($enc, self::key);
         $this->assertEquals(self::msg, $dec);
     }
 
     public function testRalph128(): void
     {
-        $enc = ralph96()::encrypt(self::msg, self::key);
-        $dec = ralph96()::decrypt($enc, self::key);
+        $enc = ralph128()::encrypt(self::msg, self::key);
+        $dec = ralph128()::decrypt($enc, self::key);
         $this->assertEquals(self::msg, $dec);
     }
 }
